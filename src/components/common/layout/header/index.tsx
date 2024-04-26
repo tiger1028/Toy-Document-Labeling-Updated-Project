@@ -1,11 +1,15 @@
-import { Brand, HeaderContainer, NavItem, NavList } from "./styles"
+import { Brand, HeaderContainer, LinkContent, NavItem, NavList } from "./styles"
 export const HeaderComponent: React.FC = () => {
   return (
     <HeaderContainer>
       <Brand />
       <NavList>
-        <NavItem to = '/'>Home</NavItem>
-        <NavItem to = '/documents'>Documents</NavItem>
+        <LinkContent to = '/'>
+          <NavItem>Home</NavItem>
+        </LinkContent>
+        <LinkContent to = '/documents'>
+          <NavItem>Documents</NavItem>
+        </LinkContent>
       </NavList>
     </HeaderContainer>
   )
