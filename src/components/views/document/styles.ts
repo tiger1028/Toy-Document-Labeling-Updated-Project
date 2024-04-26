@@ -105,7 +105,12 @@ export const Item = styled.div`
     }
   }
 `;
-
+export const SuggestArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+`
 export const SuggestButton = styled.button`
   width: 100px;
   height: 50px;
