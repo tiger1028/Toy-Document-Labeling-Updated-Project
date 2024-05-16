@@ -7,7 +7,8 @@ export const Container = styled.div`
   align-items: center;
   gap: 15px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 140px);
+  overflow: auto;
   background-color: #F5F5F5;
 `;
 
@@ -17,13 +18,42 @@ export const ContentArea = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  box-shadow: #211D1D 5px 10px 10px;
   gap: 20px;
   width: 50%;
   padding: 10px 15px;
   background-color: #211D1D;
 `;
 
-export const Title = styled.span`
+export const TitleArea = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 20px;
+`;
+
+export const NumberContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Circle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #D9D9D9;
+  color: #2D2424;
+  font-size: 25px;
+`;
+
+export const Title = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 30px;
 `;
@@ -79,6 +109,8 @@ export const LabelArea = styled.div`
   padding: 8px 8px;
   background-color: #403939;
   width: 60%;
+  max-height: 200px;
+  overflow-y: auto;
   border-radius: 5px;
 `;
 
@@ -110,6 +142,7 @@ export const SuggestArea = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
+  position: relative;
 `
 export const SuggestButton = styled.button`
   width: 100px;

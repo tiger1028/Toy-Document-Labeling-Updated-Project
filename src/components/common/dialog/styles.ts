@@ -23,7 +23,6 @@ export const DialogContent = styled.div`
   gap: 20px;
   border-radius: 5px;
   padding: 15px;
-
 `;
 
 export const TextField = styled.div`

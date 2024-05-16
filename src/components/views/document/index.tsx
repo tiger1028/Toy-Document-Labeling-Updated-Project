@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ButtonDiv, Container, ContentArea, Description, Input, Item, Label, LabelArea, LabelContent, LabelInputSection, LinkButton,  PageButton,  PageButtonBar,  SubmitButton,  SubmitButtonBar, SuggestArea, SuggestButton,  Title } from "./styles"
+import { ButtonDiv, Circle, Container, ContentArea, Description, Input, Item, Label, LabelArea, LabelContent, LabelInputSection, LinkButton,  NumberContent,  PageButton,  PageButtonBar,  SubmitButton,  SubmitButtonBar, SuggestArea, SuggestButton,  Title, TitleArea } from "./styles"
 import { DocumentContext } from "../../../contexts"
 import { DocumentType } from "../../../consts"
 import { useNavigate, useParams } from "react-router-dom"
@@ -17,6 +17,7 @@ export const DocumentComponent: React.FC = () => {
   const [isSuggestListOpened, setIsSuggestListOpened] = useState<boolean>(false);
   const [method, setMethod] = useState<string>("");
   const [document, setDocument] = useState<DocumentType>(props.documents[documentId] ?? {});
+
   const getFirstDocument = () => {
     const inheritedDocumentLabels = (props.documents[documentId].labels ?? []);
     if (inheritedDocumentLabels.toString() !== inputLabels.toString()) {
@@ -54,9 +55,8 @@ export const DocumentComponent: React.FC = () => {
   }
   
   const handleEnterKeyPress = (e : React.KeyboardEvent) => {
-    if (e.key === "Enter" && label !== "") {
-      inputLabels.push(label);
-      setInputLabels(inputLabels);
+    if (e.key === "Enter" && label !== "" && inputLabels.indexOf(label) == -1) {
+      setInputLabels([...inputLabels, label]);
       setLabel("");
     }
   }
@@ -86,7 +86,13 @@ export const DocumentComponent: React.FC = () => {
   }
 
   const getSuggestLabels = (labels: string[]) => {
-    setInputLabels([...inputLabels, ...labels]);
+    const unrepeatedLabels: string[] = [];
+    labels.map(label => {
+      if (inputLabels.indexOf(label) == -1) {
+        unrepeatedLabels.push(label);
+      }
+    })
+    setInputLabels([...inputLabels, ...unrepeatedLabels]);
   }
   const onSuggestButton = () => {
     setIsSuggestListOpened(true);
@@ -95,12 +101,14 @@ export const DocumentComponent: React.FC = () => {
   useEffect(() => {
     setDocument(props.documents[documentId]);
     setInputLabels(props.documents[documentId].labels ?? []);
-  }, [documentId]);
-  
+  }, [props.documents, documentId]);
   return (
     <Container>
       <ContentArea>
-        <Title>{document.title}</Title>
+        <TitleArea>
+          <NumberContent><Circle>{documentId + 1}</Circle></NumberContent>
+          <Title>{document.title}</Title>
+        </TitleArea>
         <Description>{document.body}</Description>
         <LinkButton href={document.url} target="blank">Go to article</LinkButton>
         <LabelContent>
@@ -118,7 +126,7 @@ export const DocumentComponent: React.FC = () => {
                 <label>{label}</label>
                 <button onClick={() => deleteLabel(index)}></button>
               </Item>
-            ))}
+            ))}    
           </LabelArea>
         </LabelContent>
         <SuggestArea>

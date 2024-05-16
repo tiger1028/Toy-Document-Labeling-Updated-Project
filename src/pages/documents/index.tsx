@@ -1,8 +1,5 @@
-import { WithLayout } from "../../components/common"
 import { DocumentsComponent } from "../../components/views"
 
-const Documents: React.FC = () => {
+export const DocumentsPage: React.FC = () => {
   return <DocumentsComponent/>
 }
-
-export const DocumentsPage = WithLayout(Documents);

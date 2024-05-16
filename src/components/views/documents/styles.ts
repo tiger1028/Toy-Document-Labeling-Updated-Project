@@ -2,13 +2,16 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   gap: 15px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 140px);
   background-color: #F5F5F5;
+  overflow-y: auto;
+  padding: 10px;
 `
 
 export const Ticket = styled.button`
@@ -18,7 +21,7 @@ export const Ticket = styled.button`
   background-color: #D9D9D9;
   color: #251C1C;
   width: 80%;
-  height: 60px;
+  height: fit-content;
   border-radius: 10px;
   border: none;
   &:hover {
