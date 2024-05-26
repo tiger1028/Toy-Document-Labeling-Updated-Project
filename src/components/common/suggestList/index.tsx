@@ -1,17 +1,18 @@
-import { CheckMark, ListItem, SubmitArea, SubmitButton, SuggestListContainer } from "./styles"
+import { CheckMark, Container, ListItem, SubmitArea, SubmitButton, SuggestListContainer , SpinnerMark} from "./styles"
 import CheckSvg from './check.svg';
-import { INITIAL_SUGGESTLABELS } from "../../../consts/suggest.labels";
-import { useState } from "react";
-
+import Spinner from './Spinner.svg';
+import { useRef, useState } from "react";
+import { useOutsideAlerter } from "../../../hooks";
+import { useFetchSuggestLabels } from "../../../hooks/useFetchSuggestLabels";
 interface SuggestListComponentProps {
   openSuggestList: (isOpened: boolean) => void;
   getSuggestLabels: (labels: string[]) => void;
 
 }
-export const SuggestListComponent: React.FC<SuggestListComponentProps> = ({openSuggestList, getSuggestLabels}) => {
-  const suggestLabels = INITIAL_SUGGESTLABELS;
+export const SuggestListComponent: React.FC<SuggestListComponentProps> = ({ openSuggestList, getSuggestLabels }) => {
   const [isCheckedList, setIsCheckedList] = useState<boolean[]>([]);
-
+  const ref = useRef(null);
+  const { suggestLabels, isLoading } = useFetchSuggestLabels();
   const checkHandle = (id: number) => {
     if (isCheckedList[id] == true) {
       setIsCheckedList((previousList) => {
@@ -22,7 +23,7 @@ export const SuggestListComponent: React.FC<SuggestListComponentProps> = ({openS
     }
     else {
       setIsCheckedList((previousList) => {
-        const updatedList = [...previousList];
+        const updatedList = [...previousList];1113
         updatedList[id] = true;
         return updatedList;
       })
@@ -38,17 +39,25 @@ export const SuggestListComponent: React.FC<SuggestListComponentProps> = ({openS
     getSuggestLabels(checkedLabels);
   }
 
+  useOutsideAlerter(ref, openSuggestList);
+
   return (
-    <SuggestListContainer>
-      {suggestLabels.map((suggestLabel, index) => (
-        <ListItem key={index} onClick={() => checkHandle(index)}>
-          {suggestLabel}
-        {isCheckedList[index] == true && <CheckMark src={CheckSvg} />}
-      </ListItem>
-      ))}
-      <SubmitArea>
-        <SubmitButton onClick={onSubmit}>Save</SubmitButton>
-      </SubmitArea>
-    </SuggestListContainer>
+    <Container>
+      <SuggestListContainer ref = {ref}>
+        {isLoading ? <SpinnerMark src={Spinner} /> : (
+          <>
+          {suggestLabels.map((suggestLabel : string, index: number) => (
+            <ListItem key={index} onClick={() => checkHandle(index)}>
+              {suggestLabel}
+            {isCheckedList[index] == true && <CheckMark src={CheckSvg} />}
+          </ListItem>
+          ))}
+          </>
+        )}
+        <SubmitArea>
+          <SubmitButton onClick={onSubmit}>Save</SubmitButton>
+        </SubmitArea>
+      </SuggestListContainer>
+      </Container>
   )
 }

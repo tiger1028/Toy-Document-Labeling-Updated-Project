@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { Container, DialogContent, TextField, Text, SubmitButtonBar, SubmitButton } from "./styles"
 import { DocumentContext } from "../../../contexts";
 import { useNavigate } from "react-router-dom";
+import { useOutsideAlerter } from "../../../hooks";
 
 interface DialogComponentProps {
   openDialog: (isOpened: boolean) => void;
@@ -13,30 +14,28 @@ interface DialogComponentProps {
 export const DialogComponent: React.FC<DialogComponentProps> = ({ openDialog , labels, id, method }) => {
   const props = useContext(DocumentContext);
   const navigate = useNavigate();
+  const ref = useRef(null);
+  useOutsideAlerter(ref, openDialog);
+
   const onSubmit = () => {
     props.setLabels(labels, id);
     {method == "goToFirst" && navigate(`/documents/${0}`)}
-    {
-      method == "goToNext" && (
-         id + 1 <= props.documents.length - 1 ? navigate(`/documents/${id + 1}`) : navigate(`/documents/${id}`)
-      )
-    }
-    {
-      method == "goToPrevious" && (
-         id -1 >=0 ? navigate(`/documents/${id - 1}`) : navigate(`/documents/${id}`)
-      )
-    }
-    {method == "goToLast" && navigate(`/documents/${props.documents.length - 1}`)}
-    
+    {method == "goToNext" &&  navigate(`/documents/${Math.min(id + 1, props.documents.length - 1)}`)}
+    {method == "goToPrevious" &&  navigate(`/documents/${Math.max(id - 1, 0)}`)}
+    {method == "goToLast" && navigate(`/documents/${props.documents.length - 1}`)} 
     openDialog(false);
   }
 
   const onCancel = () => {
+    {method == "goToFirst" && navigate(`/documents/${0}`)}
+    {method == "goToNext" &&  navigate(`/documents/${Math.min(id + 1, props.documents.length - 1)}`)}
+    {method == "goToPrevious" &&  navigate(`/documents/${Math.max(id - 1, 0)}`)}
+    {method == "goToLast" && navigate(`/documents/${props.documents.length - 1}`)}
     openDialog(false);
   }
   return (
-    <Container>
-      <DialogContent>
+    <Container >
+      <DialogContent ref = {ref}>
         <TextField>
           <Text>Do you want to save this state?</Text>
         </TextField>

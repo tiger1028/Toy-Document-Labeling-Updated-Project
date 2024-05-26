@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DocumentType, INITIAL_DOCUMENTS } from '../consts';
 import { DocumentContextType } from "../consts";
 
@@ -9,11 +9,20 @@ interface DocumentContextProps {
 
 export const DocumentContext = React.createContext<DocumentContextType>({
   documents: [],
-  setLabels: () => {}
+  setLabels: () => {},
+  fetchDocuments: () => { },
 });
 
 export const DocumentContextProvider: React.FC<DocumentContextProps> = ({ children }) => {
-  const [documents, setDocuments] = useState<DocumentType[]>(INITIAL_DOCUMENTS);
+  const [documents, setDocuments] = useState<DocumentType[]>(() => {
+    const temp = localStorage.getItem("documents") ?? ""
+    if (temp) {
+      const documents = JSON.parse(temp);
+      return documents;
+    } else {
+      return INITIAL_DOCUMENTS.slice(0, 20);
+    }
+  });
   const setLabels = (labels: string[], id: number) => {
     const newDocuments = documents.map(document => {
       if (document.id == id) {
@@ -23,10 +32,38 @@ export const DocumentContextProvider: React.FC<DocumentContextProps> = ({ childr
     })
     setDocuments(newDocuments);
   }
+
+  const fetchDocuments = (id: number) => {
+    const newDocuments = INITIAL_DOCUMENTS.slice(id, id + 20);
+    setDocuments((previousDocuments) => {
+      const documents = [...previousDocuments];
+      return [...documents, ...newDocuments];
+    })
+  }
+
+  const saveDocumentsToLocalStorage = (documents : DocumentType[]) => {
+    localStorage.removeItem('documents');
+    localStorage.setItem('documents', JSON.stringify(documents));
+  }
+  // const loadDocumentsFromLocalStorage = () => {
+  //   const documents = JSON.parse(localStorage.getItem("documents") ?? "");
+  //   setDocuments(documents);
+  // }
   const documentsState: DocumentContextType = {
     documents: documents,
-    setLabels: setLabels
+    setLabels: setLabels,
+    fetchDocuments: fetchDocuments,
   }
+
+  // useEffect(() => {
+  //   loadDocumentsFromLocalStorage();
+  // }, []);
+
+  useEffect(() => {
+    saveDocumentsToLocalStorage(documents);
+  }, [documents]);
+
+
   return (
     <DocumentContext.Provider value={documentsState}>
       {children}

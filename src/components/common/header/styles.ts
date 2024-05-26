@@ -10,8 +10,11 @@ export const HeaderContainer = styled.header`
   width: 100%;
   height: 70px;
 `;
+export const BrandContent = styled(NavLink)`
+  margin-left: 20px;
+`
 
-export const Brand = styled.image`
+export const Brand = styled.img`
   width: 50px;
   height: 50px;
 `;
@@ -22,12 +25,8 @@ export const NavList = styled.div`
   gap: 15px;
 `;
 
-export const LinkContent = styled(NavLink)`
-  text-decoration: none;
-
-`;
-
-export const NavItem = styled.button`
+export const LinkItem = styled(NavLink)`
+  text-decoration: none;  
   cursor: pointer;
   background-color: #833737;
   width: 100px;

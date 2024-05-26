@@ -1,6 +1,5 @@
-import { FooterComponent } from "./footer";
-import { HeaderComponent } from "./header";
-import { LayoutContainer, SectionContent } from "./styles";
+import { FooterComponent } from "../footer";
+import { HeaderComponent } from "../header";
 
 interface LayoutComponentProps {
   children?: React.ReactNode;
@@ -8,18 +7,10 @@ interface LayoutComponentProps {
 
 export const LayoutComponent: React.FC<LayoutComponentProps> = ({children}) => {
   return (
-    <LayoutContainer>
+    <>
       <HeaderComponent/>
-      <SectionContent>{children}</SectionContent>
+        {children}
       <FooterComponent/>
-    </LayoutContainer>
-  )
-}
-
-export const WithLayout = (Component: React.FC) => () => {
-  return (
-    <LayoutComponent>
-      <Component/>
-    </LayoutComponent>
+    </>
   )
 }
