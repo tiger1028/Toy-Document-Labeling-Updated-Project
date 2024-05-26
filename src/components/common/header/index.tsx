@@ -1,15 +1,16 @@
+import { PATH } from "consts";
 import { Brand, BrandContent, HeaderContainer, LinkItem, NavList } from "./styles"
-import brand from './dog-face-color-icon.svg';
+import brand from 'assets/dog-face-color-icon.svg';
 
 export const HeaderComponent: React.FC = () => {
   return (
     <HeaderContainer>
-      <BrandContent to="/">
+      <BrandContent to={PATH.DOCUMENTS}>
         <Brand src ={brand} />
       </BrandContent>
       <NavList>
-        <LinkItem to = '/'>Home</LinkItem>
-        <LinkItem to = '/documents'>Documents</LinkItem>
+        <LinkItem to = {PATH.HOME}>Home</LinkItem>
+        <LinkItem to = {PATH.DOCUMENTS}>Documents</LinkItem>
       </NavList>
     </HeaderContainer>
   )

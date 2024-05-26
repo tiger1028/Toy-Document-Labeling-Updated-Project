@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { INITIAL_SUGGESTLABELS } from "../consts";
+import { INITIAL_SUGGESTLABELS } from "consts";
 
 export const useFetchSuggestLabels = () => {
   const [suggestLabels, setSuggestLabels] = useState<string[]>([]);
@@ -7,12 +7,12 @@ export const useFetchSuggestLabels = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      const array: string[] = INITIAL_SUGGESTLABELS;
-      for (let i = array.length - 1; i > 0; i--) {
+      const initialSuggestLabels: string[] = INITIAL_SUGGESTLABELS;
+      for (let i = initialSuggestLabels.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [initialSuggestLabels[i], initialSuggestLabels[j]] = [initialSuggestLabels[j], initialSuggestLabels[i]];
       }
-      setSuggestLabels(array.slice(0, 4));
+      setSuggestLabels(initialSuggestLabels.slice(0, 4));
       setIsLoading(false);
     }, 2000);
   }, []);

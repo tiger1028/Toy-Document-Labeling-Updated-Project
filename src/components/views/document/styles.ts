@@ -7,7 +7,7 @@ export const Container = styled.div`
   align-items: center;
   gap: 15px;
   width: 100%;
-  height: calc(100% - 140px);
+  height: 100%;
   overflow: auto;
   background-color: #F5F5F5;
 `;
@@ -17,7 +17,6 @@ export const ContentArea = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
   box-shadow: #211D1D 5px 10px 10px;
   gap: 20px;
   width: 50%;
@@ -78,9 +77,7 @@ export const LinkButton = styled.a`
 
 export const LabelContent = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
   width: 100%;
 `;
 
@@ -115,35 +112,43 @@ export const LabelArea = styled.div`
 `;
 
 export const Item = styled.div`
-  width: 20%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  gap: 10px;
+  position: relative;
   margin-left: 20px;
   margin-top: 10px;
   height: 30px;
   color: black;
   background-color: #D9D9D9;
-  font-size: 15px;
   padding: 4px;
   text-align: center;
-  button {
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    background-color: #311313;
-    cursor: pointer;
-    &:hover {
-      background-color: #6D1C1C;
-    }
+  overflow: hidden;
+`;
+
+export const ItemLabel = styled.span`
+  font-size: 15px;
+`;
+
+export const CloseButton = styled.button`
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background-color: #311313;
+  cursor: pointer;
+  &:hover {
+    background-color: #6D1C1C;
   }
 `;
+
 export const SuggestArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 5px;
   position: relative;
-`
+`;
+
 export const SuggestButton = styled.button`
   width: 100px;
   height: 50px;
