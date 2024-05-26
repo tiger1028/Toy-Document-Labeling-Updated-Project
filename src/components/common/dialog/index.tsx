@@ -1,9 +1,8 @@
 import { useContext, useRef } from "react";
-import { Container, DialogContent, TextField, Text, SubmitButtonBar, SubmitButton } from "./styles"
-import { DocumentContext } from "../../../contexts";
+import { Container, DialogContent, TextField, Text, SubmitButtonBar, SubmitButton } from "./styles";
+import { DocumentContext } from "contexts";
 import { useNavigate } from "react-router-dom";
-import { useOutsideAlerter } from "../../../hooks";
-
+import { useOutsideAlerter } from "hooks";
 interface DialogComponentProps {
   openDialog: (isOpened: boolean) => void;
   labels: string[];

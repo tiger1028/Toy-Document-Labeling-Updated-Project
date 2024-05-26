@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DocumentType, INITIAL_DOCUMENTS } from '../consts';
-import { DocumentContextType } from "../consts";
-
+import { DocumentType, INITIAL_DOCUMENTS, DocumentContextType } from 'consts';
 
 interface DocumentContextProps {
   children: React.ReactNode;
@@ -10,7 +8,7 @@ interface DocumentContextProps {
 export const DocumentContext = React.createContext<DocumentContextType>({
   documents: [],
   setLabels: () => {},
-  fetchDocuments: () => { },
+  fetchDocuments: () => {},
 });
 
 export const DocumentContextProvider: React.FC<DocumentContextProps> = ({ children }) => {
@@ -45,19 +43,12 @@ export const DocumentContextProvider: React.FC<DocumentContextProps> = ({ childr
     localStorage.removeItem('documents');
     localStorage.setItem('documents', JSON.stringify(documents));
   }
-  // const loadDocumentsFromLocalStorage = () => {
-  //   const documents = JSON.parse(localStorage.getItem("documents") ?? "");
-  //   setDocuments(documents);
-  // }
+
   const documentsState: DocumentContextType = {
     documents: documents,
     setLabels: setLabels,
     fetchDocuments: fetchDocuments,
   }
-
-  // useEffect(() => {
-  //   loadDocumentsFromLocalStorage();
-  // }, []);
 
   useEffect(() => {
     saveDocumentsToLocalStorage(documents);

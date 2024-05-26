@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from "react"
-import { ButtonDiv, Circle, Container, ContentArea, Description, Input, Item, Label, LabelArea, LabelContent, LabelInputSection, LinkButton,  NumberContent,  PageButton,  PageButtonBar,  SubmitButton,  SubmitButtonBar, SuggestArea, SuggestButton,  Title, TitleArea } from "./styles"
-import { DocumentContext } from "../../../contexts"
-import { DocumentType } from "../../../consts"
-import { useNavigate, useParams } from "react-router-dom"
-import { DialogComponent, SuggestListComponent } from "../../common"
+import React, { useContext, useEffect, useState } from "react";
+import { ButtonDiv, CloseButton, ItemLabel, Circle, Container, ContentArea, Description, Input, Item, Label, LabelArea, LabelContent, LabelInputSection, LinkButton, NumberContent, PageButton, PageButtonBar, SubmitButton, SubmitButtonBar, SuggestArea, SuggestButton, Title, TitleArea } from "./styles";
+import { DocumentContext } from "contexts";
+import { DocumentType } from "consts";
+import { useNavigate, useParams } from "react-router-dom";
+import { DialogComponent, SuggestListComponent } from "components";
 
 export const DocumentComponent: React.FC = () => {
   const { id } = useParams();
@@ -18,40 +18,18 @@ export const DocumentComponent: React.FC = () => {
   const [method, setMethod] = useState<string>("");
   const [document, setDocument] = useState<DocumentType>(props.documents[documentId] ?? {});
 
-  const getFirstDocument = () => {
+  const goToDocumentHandler = (method: string) => {
     const inheritedDocumentLabels = (props.documents[documentId].labels ?? []);
     if (inheritedDocumentLabels.toString() !== inputLabels.toString()) {
-      setMethod("goToFirst");
+      setMethod(method);
       setIsDialogOpened(true);
     }
-    else navigate(`/documents/${0}`);
-  }
-
-  const getPreviousDocument = () => {
-    const inheritedDocumentLabels = (props.documents[documentId].labels ?? []);
-    if (inheritedDocumentLabels.toString() !== inputLabels.toString()) {
-      setMethod("goToPrevious");
-      setIsDialogOpened(true);
+    else {
+      {method == "goToFirst" && navigate(`/documents/${0}`)}
+      {method == "goToNext" &&  navigate(`/documents/${Math.min(documentId + 1, props.documents.length - 1)}`)}
+      {method == "goToPrevious" &&  navigate(`/documents/${Math.max(documentId - 1, 0)}`)}
+      {method == "goToLast" && navigate(`/documents/${props.documents.length - 1}`)}
     }
-    else  documentId -1 >=0 ? navigate(`/documents/${documentId - 1}`) : navigate(`/documents/${documentId}`)
-  }
-
-  const getNextDocument = () => {
-    const inheritedDocumentLabels = (props.documents[documentId].labels ?? []);
-    if (inheritedDocumentLabels.toString() !== inputLabels.toString()) {
-      setMethod("goToNext");
-      setIsDialogOpened(true);
-    }
-    else  documentId + 1 <= props.documents.length - 1 ? navigate(`/documents/${documentId + 1}`) : navigate(`/documents/${documentId}`)
-  }
-
-  const getLastDocument = () => {
-    const inheritedDocumentLabels = (props.documents[documentId].labels ?? []);
-    if (inheritedDocumentLabels.toString() !== inputLabels.toString()) {
-      setMethod("goToLast");
-      setIsDialogOpened(true);
-    }
-    else navigate(`/documents/${props.documents.length - 1}`);
   }
   
   const handleEnterKeyPress = (e : React.KeyboardEvent) => {
@@ -68,9 +46,13 @@ export const DocumentComponent: React.FC = () => {
       return newLabels;
     })
   }
+
   const onSave = () => {
-    setMethod("current")
-    setIsDialogOpened(true);
+    const inheritedDocumentLabels = (props.documents[documentId].labels ?? []);
+    if (inheritedDocumentLabels.toString() !== inputLabels.toString()) {
+      setMethod("current")
+      setIsDialogOpened(true);
+    }
   }
 
   const onReset = () => {
@@ -94,6 +76,7 @@ export const DocumentComponent: React.FC = () => {
     })
     setInputLabels([...inputLabels, ...unrepeatedLabels]);
   }
+
   const onSuggestButton = () => {
     setIsSuggestListOpened(true);
   }
@@ -102,11 +85,14 @@ export const DocumentComponent: React.FC = () => {
     setDocument(props.documents[documentId]);
     setInputLabels(props.documents[documentId].labels ?? []);
   }, [props.documents, documentId]);
+
   return (
     <Container>
       <ContentArea>
         <TitleArea>
-          <NumberContent><Circle>{documentId + 1}</Circle></NumberContent>
+          <NumberContent>
+            <Circle>{documentId + 1}</Circle>
+          </NumberContent>
           <Title>{document.title}</Title>
         </TitleArea>
         <Description>{document.body}</Description>
@@ -123,8 +109,8 @@ export const DocumentComponent: React.FC = () => {
           <LabelArea>
             {inputLabels.map((label, index) => (
               <Item key={index}>
-                <label>{label}</label>
-                <button onClick={() => deleteLabel(index)}></button>
+                <ItemLabel>{label}</ItemLabel>
+                <CloseButton onClick={() => deleteLabel(index)}></CloseButton>
               </Item>
             ))}    
           </LabelArea>
@@ -135,10 +121,10 @@ export const DocumentComponent: React.FC = () => {
         </SuggestArea>
         <ButtonDiv>
           <PageButtonBar>
-            <PageButton onClick={getFirstDocument}>{pageButtonLabels[0]}</PageButton>
-            <PageButton onClick={getPreviousDocument}>{pageButtonLabels[1]}</PageButton>
-            <PageButton onClick={getNextDocument}>{pageButtonLabels[2]}</PageButton>
-            <PageButton onClick={getLastDocument}>{pageButtonLabels[3]}</PageButton>
+            <PageButton onClick={() => goToDocumentHandler("goToFirst")}>{pageButtonLabels[0]}</PageButton>
+            <PageButton onClick={() => goToDocumentHandler("goToPrevious")}>{pageButtonLabels[1]}</PageButton>
+            <PageButton onClick={() => goToDocumentHandler("goToNext")}>{pageButtonLabels[2]}</PageButton>
+            <PageButton onClick={() => goToDocumentHandler("goToLast")}>{pageButtonLabels[3]}</PageButton>
           </PageButtonBar>
           <SubmitButtonBar>
             <SubmitButton onClick={onSave}>Save</SubmitButton>

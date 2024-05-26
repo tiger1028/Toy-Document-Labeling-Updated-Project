@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react"
-import { Container, TextField, Ticket } from "./styles"
-import { DocumentContext } from "../../../contexts";
-import { DocumentType } from "../../../consts";
+import { useContext, useEffect, useState } from "react";
+import { Container, TextField, Ticket } from "./styles";
+import { DocumentContext } from "contexts";
+import { DocumentType } from "consts";
 import { useNavigate } from "react-router-dom";
-
 
 export const DocumentsComponent: React.FC = () => {
   const props = useContext(DocumentContext);

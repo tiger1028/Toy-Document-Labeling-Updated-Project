@@ -5,7 +5,8 @@ export const Container = styled.div`
   top: 60px;
   left: 0;
   box-shadow: rgba(0,0,0,0.3) 2px 2px 5px 5px;
-`
+`;
+
 export const SuggestListContainer = styled.div`
   display: flex;
   width: 150px;
@@ -32,8 +33,8 @@ export const CheckMark = styled.img`
 `;
 
 export const SpinnerMark = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
 `;
 
 export const SubmitArea = styled.div`
@@ -52,4 +53,4 @@ export const SubmitButton = styled.button`
   &:hover {
     background-color: #010101;
   }
-`
+`;

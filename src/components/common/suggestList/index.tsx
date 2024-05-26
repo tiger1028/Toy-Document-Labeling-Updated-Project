@@ -1,14 +1,13 @@
-import { CheckMark, Container, ListItem, SubmitArea, SubmitButton, SuggestListContainer , SpinnerMark} from "./styles"
-import CheckSvg from './check.svg';
-import Spinner from './Spinner.svg';
+import { CheckMark, Container, ListItem, SubmitArea, SubmitButton, SuggestListContainer, SpinnerMark } from "./styles";
+import CheckSvg from 'assets/check.svg';
+import Spinner from 'assets/Spinner.svg';
 import { useRef, useState } from "react";
-import { useOutsideAlerter } from "../../../hooks";
-import { useFetchSuggestLabels } from "../../../hooks/useFetchSuggestLabels";
+import { useOutsideAlerter, useFetchSuggestLabels } from "hooks";
 interface SuggestListComponentProps {
   openSuggestList: (isOpened: boolean) => void;
   getSuggestLabels: (labels: string[]) => void;
-
 }
+
 export const SuggestListComponent: React.FC<SuggestListComponentProps> = ({ openSuggestList, getSuggestLabels }) => {
   const [isCheckedList, setIsCheckedList] = useState<boolean[]>([]);
   const ref = useRef(null);
@@ -23,7 +22,7 @@ export const SuggestListComponent: React.FC<SuggestListComponentProps> = ({ open
     }
     else {
       setIsCheckedList((previousList) => {
-        const updatedList = [...previousList];1113
+        const updatedList = [...previousList];
         updatedList[id] = true;
         return updatedList;
       })
